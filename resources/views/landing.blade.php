@@ -57,7 +57,7 @@
                     <div>
                         <a href="{{ route('login') }}"
                             class="inline-flex text-sm items-center px-6 py-2.5 bg-primary-700 text-white font-medium rounded-lg transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg">
-                            Login Masjid
+                            Login
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
