@@ -18,15 +18,15 @@ class RekeningController extends Controller
         $validated = $request->validate([
             'KODER' => 'required|unique:gl_rekening,KODER',
             'NAMA' => 'required|string|max:255',
-            'SALDO' => 'required|numeric',
+            // 'SALDO' => 'required|numeric',
             'A_P' => 'required|in:A,P,L,O',
             'TIPE' => 'required|in:H,D',
         ], [
             'KODER.required' => 'Kode Rekening wajib diisi',
             'KODER.unique' => 'Kode Rekening sudah digunakan',
             'NAMA.required' => 'Nama Rekening wajib diisi',
-            'SALDO.required' => 'Saldo awal wajib diisi',
-            'SALDO.numeric' => 'Saldo harus berupa angka',
+            // 'SALDO.required' => 'Saldo awal wajib diisi',
+            // 'SALDO.numeric' => 'Saldo harus berupa angka',
             'A_P.required' => 'Posisi rekening wajib dipilih',
             'A_P.in' => 'Posisi rekening tidak valid (A, P, L, O)',
             'TIPE.required' => 'Tipe rekening wajib dipilih',
@@ -36,7 +36,7 @@ class RekeningController extends Controller
         Rekening::create([
             'KODER' => $validated['KODER'],
             'NAMA' => $validated['NAMA'],
-            'SALDO' => $validated['SALDO'],
+            'SALDO' => 0,
             'A_P' => $validated['A_P'],
             'TIPE' => $validated['TIPE'],
             'TGL' => now(),

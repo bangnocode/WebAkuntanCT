@@ -68,7 +68,7 @@
                     </select>
                 </div>
 
-                <!-- Saldo Awal -->
+                {{-- <!-- Saldo Awal -->
                 <div class="lg:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Saldo Awal (Rp)</label>
                     <input type="text" name="SALDO" id="saldoInput" value="0" required
@@ -78,7 +78,7 @@
               hover:border-blue-300 transition-all duration-200
               text-right font-mono tracking-tight"
                         placeholder="0">
-                </div>
+                </div> --}}
 
                 <!-- Submit Button -->
                 <div class="lg:col-span-5 flex justify-end mt-2">
