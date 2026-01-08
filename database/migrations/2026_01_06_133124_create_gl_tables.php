@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('NAMA');
             $table->decimal('SALDO', 20, 2)->default(0);
             $table->char('A_P', 1); // Group: A = Asset/Harta/Beban, P = Pasiva/Hutang/Modal/Pendapatan
+            $table->char('TIPE', 1)->default('D'); // H = Header/Induk, D = Detail/Transaksi
             $table->dateTime('TGL');
             $table->timestamps();
         });

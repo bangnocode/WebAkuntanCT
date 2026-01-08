@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RekeningController;
 use App\Http\Controllers\JurnalController;
+use App\Http\Controllers\LaporanController;
 
 // Landing Page
 Route::get('/', function () {
@@ -33,5 +34,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/jurnal', [JurnalController::class, 'store'])->name('jurnal.store');
 
     // Laporan
-    Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });

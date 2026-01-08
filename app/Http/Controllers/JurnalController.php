@@ -19,7 +19,7 @@ class JurnalController extends Controller
     public function searchRekening(Request $request)
     {
         $koder = $request->query('koder');
-        $rekening = Rekening::where('KODER', $koder)->first();
+        $rekening = Rekening::where('KODER', $koder)->whereNot('TIPE', 'H')->first();
 
         if ($rekening) {
             return response()->json([

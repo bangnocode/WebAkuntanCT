@@ -16,6 +16,7 @@ class Rekening extends Model
         'NAMA',
         'SALDO',
         'A_P',
+        'TIPE',
         'TGL',
     ];
 
@@ -23,4 +24,9 @@ class Rekening extends Model
         'SALDO' => 'decimal:2',
         'TGL' => 'datetime',
     ];
+
+    public function scopeTransaksi($query)
+    {
+        return $query->where('TIPE', 'D');
+    }
 }
