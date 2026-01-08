@@ -19,7 +19,7 @@ class RekeningController extends Controller
             'KODER' => 'required|unique:gl_rekening,KODER',
             'NAMA' => 'required|string|max:255',
             'SALDO' => 'required|numeric',
-            'A_P' => 'required|in:A,P',
+            'A_P' => 'required|in:A,P,L,O',
         ], [
             'KODER.required' => 'Kode Rekening wajib diisi',
             'KODER.unique' => 'Kode Rekening sudah digunakan',
@@ -27,7 +27,7 @@ class RekeningController extends Controller
             'SALDO.required' => 'Saldo awal wajib diisi',
             'SALDO.numeric' => 'Saldo harus berupa angka',
             'A_P.required' => 'Tipe rekening wajib dipilih',
-            'A_P.in' => 'Tipe rekening tidak valid',
+            'A_P.in' => 'Tipe rekening tidak valid (A, P, L, O)',
         ]);
 
         Rekening::create([
@@ -54,7 +54,7 @@ class RekeningController extends Controller
         $validated = $request->validate([
             'KODER' => 'required|unique:gl_rekening,KODER,' . $id . ',KODER',
             'NAMA' => 'required|string|max:255',
-            'A_P' => 'required|in:A,P',
+            'A_P' => 'required|in:A,P,L,O',
             // Saldo sebaiknya tidak di-edit sembarangan jika sudah berjalan, tapi untuk awal boleh
             'SALDO' => 'required|numeric',
         ]);

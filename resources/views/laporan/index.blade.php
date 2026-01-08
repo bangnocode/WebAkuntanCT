@@ -57,8 +57,10 @@
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No. Slip</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode Akun</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
+                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Awal</th>
                         <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Debit</th>
                         <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Kredit</th>
+                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -77,11 +79,17 @@
                         <td class="px-4 py-3 text-sm text-gray-600">
                             {{ $row->KET }}
                         </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-mono text-gray-600 font-medium">
+                            {{ number_format($row->SALDOAWAL, 0, ',', '.') }}
+                        </td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-mono text-green-600 font-medium">
                             {{ number_format($row->DEBIT, 0, ',', '.') }}
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-mono text-red-600 font-medium">
                             {{ number_format($row->KREDIT, 0, ',', '.') }}
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-mono text-blue-600 font-medium">
+                            {{ number_format($row->SALDO, 0, ',', '.') }}
                         </td>
                     </tr>
                     @empty
@@ -99,13 +107,14 @@
                 </tbody>
                 <tfoot class="bg-gray-50 font-bold">
                     <tr>
-                        <td colspan="4" class="px-4 py-3 text-right text-sm text-gray-700">Total Periode Ini:</td>
+                        <td colspan="5" class="px-4 py-3 text-right text-sm text-gray-700">Total Periode Ini:</td>
                         <td class="px-4 py-3 text-right text-sm text-green-700 font-mono">
                             {{ number_format($laporan->sum('DEBIT'), 0, ',', '.') }}
                         </td>
                         <td class="px-4 py-3 text-right text-sm text-red-700 font-mono">
                             {{ number_format($laporan->sum('KREDIT'), 0, ',', '.') }}
                         </td>
+                        <td class="px-4 py-3"></td>
                     </tr>
                 </tfoot>
             </table>
@@ -119,7 +128,7 @@
             theme: 'bootstrap-5',
             placeholder: 'Pilih Rekening',
             allowClear: true,
-            selectionCssClass: 'select2--small', 
+            selectionCssClass: 'select2--small',
             dropdownCssClass: 'select2--small'
         });
     });

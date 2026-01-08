@@ -82,9 +82,11 @@ class JurnalController extends Controller
                     $kredit = ($item['dk'] == 'K') ? $item['nominal'] : 0;
 
                     // Hitung Saldo Baru
-                    if ($rekening->A_P == 'A') {
+                    if (in_array($rekening->A_P, ['A', 'O'])) {
+                        // Debit increases Asset (A) and Expense (O)
                         $saldoBaru = $rekening->SALDO + $debit - $kredit;
                     } else {
+                        // Credit increases Liability/Equity (P) and Revenue (L)
                         $saldoBaru = $rekening->SALDO + $kredit - $debit;
                     }
 

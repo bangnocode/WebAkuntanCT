@@ -48,8 +48,10 @@
                focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 
                hover:border-blue-300 transition-all duration-200
                appearance-none cursor-pointer">
-                    <option value="A" class="text-gray-700">A - Aset / Beban</option>
-                    <option value="P" class="text-gray-700">P - Pasiva / Pendapatan</option>
+                    <option value="A" class="text-gray-700">A - Aktiva</option>
+                    <option value="P" class="text-gray-700">P - Pasiva</option>
+                    <option value="L" class="text-gray-700">L - Pendapatan</option>
+                    <option value="O" class="text-gray-700">O - Biaya</option>
                 </select>
             </div>
 
@@ -95,9 +97,24 @@
                         <td class="px-6 py-3 font-medium text-gray-900">{{ $rek->KODER }}</td>
                         <td class="px-6 py-3">{{ $rek->NAMA }}</td>
                         <td class="px-6 py-3">
-                            <span
-                                class="inline-flex items-center px-2 py-1 rounded text-xs font-medium {{ $rek->A_P == 'A' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700' }}">
-                                {{ $rek->A_P == 'A' ? 'Aset' : 'Pasiva' }}
+                            @php
+                            $badgeClass = match($rek->A_P) {
+                            'A' => 'bg-green-100 text-green-700',
+                            'P' => 'bg-orange-100 text-orange-700',
+                            'L' => 'bg-blue-100 text-blue-700',
+                            'O' => 'bg-red-100 text-red-700',
+                            default => 'bg-gray-100 text-gray-700'
+                            };
+                            $badgeLabel = match($rek->A_P) {
+                            'A' => 'Aktiva',
+                            'P' => 'Pasiva',
+                            'L' => 'Pendapatan',
+                            'O' => 'Biaya',
+                            default => '-'
+                            };
+                            @endphp
+                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium {{ $badgeClass }}">
+                                {{ $badgeLabel }}
                             </span>
                         </td>
                         <td class="px-6 py-3 text-right font-mono text-gray-700">
