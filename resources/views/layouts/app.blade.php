@@ -173,7 +173,7 @@
                 </div>
                 @endif
 
-                @if ($errors->any())
+                @if ($errors->any() || session('error'))
                 <div class="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r shadow-sm">
                     <div class="flex">
                         <div class="flex-shrink-0">
