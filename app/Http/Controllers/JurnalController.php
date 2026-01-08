@@ -7,6 +7,7 @@ use App\Models\Rekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class JurnalController extends Controller
 {
@@ -111,9 +112,10 @@ class JurnalController extends Controller
                 }
             });
 
-            return redirect()->route('jurnal.create')->with('success', 'Jurnal berhasil diposting!');
+            return redirect()->route('jurnal.create')->with('success', 'Jurnal berhasil disimpan!');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
+            Log::error($e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan sistem');
         }
     }
 }

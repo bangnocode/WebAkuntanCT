@@ -40,7 +40,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Total Saldo Kas</p>
+                        <p class="text-sm font-medium text-gray-500">Total Saldo</p>
                         <h3 class="text-xl font-bold text-gray-800">Rp
                             {{ number_format($totalCashBalance, 0, ',', '.') }}</h3>
                     </div>
@@ -49,7 +49,7 @@
         </div>
 
         <!-- Recent Activity / Placeholder -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <!-- <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h3 class="text-lg font-bold text-gray-800 mb-4">Aktivitas Terbaru</h3>
             <div class="flex flex-col items-center justify-center py-12 text-center">
                 <div class="bg-gray-50 p-4 rounded-full mb-4">
@@ -62,7 +62,7 @@
                 <p class="text-gray-500 font-medium">Belum ada aktivitas tercatat</p>
                 <p class="text-gray-400 text-sm mt-1">Mulai pencatatan transaksi untuk melihat aktivitas di sini.</p>
             </div>
-        </div>
+        </div> -->
     </main>
 
     <!-- Alpine.js for interactive components -->

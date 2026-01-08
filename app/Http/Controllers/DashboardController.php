@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rekening;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,10 +12,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Fake data for dashboard summary
+
+        $dataRekening = Rekening::all(['KODER', 'SALDO']);
+        $dataCash = $dataRekening->sum('SALDO');
+
         $data = [
-            'totalAccounts' => 12,
-            'totalCashBalance' => 25000000, // Rp 25.000.000
+            'totalAccounts' => count($dataRekening),
+            'totalCashBalance' => $dataCash
         ];
 
         return view('dashboard', $data);

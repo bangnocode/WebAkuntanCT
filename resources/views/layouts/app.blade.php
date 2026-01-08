@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAkuntan - Centechno</title>
+    <title>AkuntanMasjid - Centechno</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,20 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
                 }
             }
         }
@@ -44,7 +58,7 @@
 
         <!-- Mobile Header -->
         <div class="md:hidden bg-white shadow-sm p-4 flex items-center justify-between sticky top-0 z-20">
-            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 class="text-xl font-bold text-primary-700">
                 WebAkuntan</h1>
             <button @click="sidebarOpen = !sidebarOpen" class="text-gray-600 hover:text-gray-900 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +73,7 @@
             class="fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-md transform md:relative md:translate-x-0 transition duration-200 ease-in-out">
             <div class="p-6 border-b border-gray-100 hidden md:block">
                 <h1
-                    class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    class="text-xl font-bold text-primary-700">
                     WebAkuntan
                 </h1>
             </div>
@@ -68,11 +82,11 @@
             <div class="px-6 py-4 border-b border-gray-100 bg-blue-50/50">
                 <div class="flex items-center space-x-3">
                     <div
-                        class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                        class="w-9 h-9 rounded-full bg-primary-700 flex items-center justify-center text-white font-bold text-lg">
                         {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-gray-900">{{ Auth::user()->name }}</p>
+                        <p class="text-sm font-semibold text-primary-700">{{ Auth::user()->name }}</p>
                         <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
@@ -80,7 +94,7 @@
 
             <nav class="p-4 space-y-1">
                 <a href="{{ route('dashboard') }}"
-                    class="flex items-center p-3 {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg group transition-colors">
+                    class="flex items-center p-3 {{ request()->routeIs('dashboard') ? 'bg-primary-50 text-primary-700 hover:text-primary-700' : 'text-gray-600 hover:bg-gray-50 hover:text-primary-700' }} rounded-lg group transition-colors">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
@@ -90,7 +104,7 @@
                 </a>
 
                 <a href="{{ route('rekening.index') }}"
-                    class="flex items-center p-3 {{ request()->routeIs('rekening.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg group transition-colors">
+                    class="flex items-center p-3 {{ request()->routeIs('rekening.*') ? 'bg-primary-50 text-primary-700 hover:text-primary-700' : 'text-gray-600 hover:bg-gray-50 hover:text-primary-700' }} rounded-lg group transition-colors">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
@@ -100,13 +114,23 @@
                 </a>
 
                 <a href="{{ route('jurnal.create') }}"
-                    class="flex items-center p-3 {{ request()->routeIs('jurnal.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg group transition-colors">
+                    class="flex items-center p-3 {{ request()->routeIs('jurnal.*') ? 'bg-primary-50 text-primary-700 hover:text-primary-700' : 'text-gray-600 hover:bg-gray-50 hover:text-primary-700' }} rounded-lg group transition-colors">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                         </path>
                     </svg>
                     <span class="font-medium text-sm">Pencatatan Jurnal</span>
+                </a>
+
+                <a href="{{ route('laporan.index') }}"
+                    class="flex items-center p-3 {{ request()->routeIs('laporan.*') ? 'bg-primary-50 text-primary-700 hover:text-primary-700' : 'text-gray-600 hover:bg-gray-50 hover:text-primary-700' }} rounded-lg group transition-colors">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    <span class="font-medium text-sm">Laporan</span>
                 </a>
             </nav>
 
@@ -134,37 +158,40 @@
         <main class="flex-1 overflow-y-auto p-4 sm:p-8">
             <div class="max-w-7xl mx-auto">
                 @if (session('success'))
-                    <div class="mb-4 bg-green-50 border-l-4 border-green-500 p-4 rounded-r shadow-sm">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-green-700">{{ session('success') }}</p>
-                            </div>
+                <div class="mb-4 bg-green-50 border-l-4 border-green-500 p-4 rounded-r shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle h-5 w-5 text-green-500" viewBox="0 0 16 16">
+                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
+                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-green-700">{{ session('success') }}</p>
                         </div>
                     </div>
+                </div>
                 @endif
 
-                @if (session('error'))
-                    <div class="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r shadow-sm">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-red-700">{{ session('error') }}</p>
-                            </div>
+                @if ($errors->any())
+                <div class="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li class="text-sm text-red-700">{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
+                </div>
                 @endif
 
                 @yield('content')

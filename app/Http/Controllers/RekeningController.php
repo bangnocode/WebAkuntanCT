@@ -20,6 +20,14 @@ class RekeningController extends Controller
             'NAMA' => 'required|string|max:255',
             'SALDO' => 'required|numeric',
             'A_P' => 'required|in:A,P',
+        ], [
+            'KODER.required' => 'Kode Rekening wajib diisi',
+            'KODER.unique' => 'Kode Rekening sudah digunakan',
+            'NAMA.required' => 'Nama Rekening wajib diisi',
+            'SALDO.required' => 'Saldo awal wajib diisi',
+            'SALDO.numeric' => 'Saldo harus berupa angka',
+            'A_P.required' => 'Tipe rekening wajib dipilih',
+            'A_P.in' => 'Tipe rekening tidak valid',
         ]);
 
         Rekening::create([

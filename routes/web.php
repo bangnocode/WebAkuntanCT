@@ -31,4 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/jurnal/search-rekening', [JurnalController::class, 'searchRekening'])->name('jurnal.search');
     Route::get('/jurnal', [JurnalController::class, 'create'])->name('jurnal.create');
     Route::post('/jurnal', [JurnalController::class, 'store'])->name('jurnal.store');
+
+    // Laporan
+    Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
 });
