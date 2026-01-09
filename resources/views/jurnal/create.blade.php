@@ -228,15 +228,32 @@
                         + Tambah
                     </button>
 
-                    <button type="button" @click="$refs.submitForm.submit()" :disabled="!canSubmit"
+                    <button type="button" @click="submitJurnal" :disabled="!canSubmit || isSubmitting"
                         class="flex-1 bg-blue-600 text-white flex justify-center items-center gap-1 px-4 py-2 rounded text-xs font-semibold hover:bg-blue-700 disabled:bg-blue-200 disabled:cursor-not-allowed transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                            class="bi bi-floppy-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
-                            <path
-                                d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
-                        </svg> Simpan
+                        <template x-if="!isSubmitting">
+                            <span class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                    class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
+                                    <path
+                                        d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                                </svg> Simpan
+                            </span>
+                        </template>
+                        <template x-if="isSubmitting">
+                            <span class="flex items-center gap-1">
+                                <svg class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                                Memproses...
+                            </span>
+                        </template>
                     </button>
                 </div>
             </div>
@@ -250,15 +267,32 @@
                     + Tambah
                 </button>
 
-                <button type="button" @click="$refs.submitFormMobile.submit()" :disabled="!canSubmit"
+                <button type="button" @click="submitJurnal" :disabled="!canSubmit || isSubmitting"
                     class="bg-blue-600 text-white px-4 flex justify-center items-center gap-1 py-2 rounded text-xs font-semibold hover:bg-blue-700 disabled:bg-blue-200 disabled:cursor-not-allowed transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                        class="bi bi-floppy-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
-                        <path
-                            d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
-                    </svg> Simpan
+                    <template x-if="!isSubmitting">
+                        <span class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z" />
+                                <path
+                                    d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z" />
+                            </svg> Simpan
+                        </span>
+                    </template>
+                    <template x-if="isSubmitting">
+                        <span class="flex items-center gap-1">
+                            <svg class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Memproses...
+                        </span>
+                    </template>
                 </button>
             </div>
 
@@ -307,6 +341,7 @@
             nominalFormatted: '', // Untuk tampilan dengan format
             rekeningStatus: 'idle',
             cart: [],
+            isSubmitting: false,
 
             init() {
                 // Initialize dengan tanggal hari ini
@@ -465,6 +500,13 @@
                     year: 'numeric'
                 };
                 return new Date(dateString).toLocaleDateString('id-ID', options);
+            },
+
+            submitJurnal() {
+                if (this.canSubmit) {
+                    this.isSubmitting = true;
+                    this.$refs.submitForm.submit();
+                }
             }
         }));
     });
