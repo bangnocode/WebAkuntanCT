@@ -82,7 +82,7 @@
 
         <!-- Hero Section -->
         <section class="relative hero-background">
-            <div class="absolute inset-0 bg-black/85"></div>
+            <div class="absolute inset-0 bg-black/80"></div>
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
                 <div class="text-center text-white">
                     <!-- Logo/Icon -->
