@@ -37,7 +37,7 @@
                 }
             }
         }
-    </script>
+    </script>   
     <style>
         .hero-background {
             background-image: url('{{ asset('assets/images/masjid_nurul_jadid.webp') }}');

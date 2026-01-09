@@ -35,4 +35,6 @@ Route::middleware('auth')->group(function () {
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/neraca', [App\Http\Controllers\LaporanKeuanganController::class, 'neraca'])->name('laporan.neraca');
+    Route::get('/laporan/labarugi', [App\Http\Controllers\LaporanKeuanganController::class, 'labarugi'])->name('laporan.labarugi');
 });
