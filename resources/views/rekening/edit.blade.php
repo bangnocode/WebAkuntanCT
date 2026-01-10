@@ -61,7 +61,7 @@
               py-2 px-3 text-gray-700 placeholder-gray-400
               focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 
               hover:border-blue-300 transition-all duration-200 text-right font-mono tracking-tight">
-                <p class="text-xs text-gray-500 mt-1">*Hati-hati mengubah saldo jika transaksi sudah berjalan.</p>
+                {{-- <p class="text-xs text-gray-500 mt-1">*Hati-hati mengubah saldo jika transaksi sudah berjalan.</p> --}}
             </div>
 
             <!-- Actions -->
