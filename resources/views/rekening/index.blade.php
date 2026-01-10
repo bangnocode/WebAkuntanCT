@@ -8,6 +8,13 @@
                 <h2 class="text-2xl font-bold text-gray-800">Master Rekening</h2>
                 <p class="text-gray-600 text-sm">Kelola data rekening akuntansi</p>
             </div>
+            <form action="{{ route('jurnal.sync') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menyinkronkan ulang saldo rekening induk? Proses ini akan menghitung ulang saldo induk berdasarkan detail.');">
+                @csrf
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Sync Saldo Induk
+                </button>
+            </form>
         </div>
 
         <!-- Form Tambah Rekening (Card) -->
@@ -98,7 +105,7 @@
                         <tr>
                             <th class="px-6 py-3">Kode</th>
                             <th class="px-6 py-3">Nama Rekening</th>
-                            <th class="px-6 py-3">Tipe</th>
+                            {{-- <th class="px-6 py-3">Tipe</th> --}}
                             <th class="px-6 py-3">Posisi</th>
                             <th class="px-6 py-3 text-right">Saldo</th>
                             <th class="px-6 py-3">Update Terakhir</th>
@@ -117,7 +124,7 @@
                                             class="ml-2 text-[10px] uppercase tracking-wider text-gray-400 font-normal">(Induk)</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3">
+                                {{-- <td class="px-6 py-3">
                                     @if ($rek->TIPE == 'H')
                                         <span
                                             class="px-2 py-1 rounded text-xs font-medium bg-gray-200 text-gray-700">Header</span>
@@ -125,7 +132,7 @@
                                         <span
                                             class="px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-600">Detail</span>
                                     @endif
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-3">
                                     @php
                                         $badgeClass = match ($rek->A_P) {
