@@ -56,8 +56,8 @@
             <!-- Saldo Awal -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Saldo</label>
-                <input type="number" name="SALDO" value="{{ old('SALDO', $rekening->SALDO) }}" required min="0"
-                    class="w-full rounded-sm border border-gray-300 bg-white 
+                <input type="number" name="SALDO" value="{{ old('SALDO', $rekening->SALDO) }}" required min="0" disabled
+                    class="w-full rounded-sm border border-gray-300 bg-white cursor-not-allowed
               py-2 px-3 text-gray-700 placeholder-gray-400
               focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 
               hover:border-blue-300 transition-all duration-200 text-right font-mono tracking-tight">

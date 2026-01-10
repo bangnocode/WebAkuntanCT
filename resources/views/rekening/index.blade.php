@@ -155,7 +155,7 @@
                                     {{ $rek->TGL ? $rek->TGL->format('d M Y H:i') : '-' }}
                                 </td>
                                 <td class="px-6 py-3 text-center flex justify-center space-x-2">
-                                    {{-- <a href="{{ route('rekening.edit', $rek->KODER) }}"
+                                    <a href="{{ route('rekening.edit', $rek->KODER) }}"
                                 class="text-blue-600 hover:text-blue-900 bg-blue-50 p-1.5 rounded-lg transition"
                                 title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@
                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
                                     </path>
                                 </svg>
-                            </a> --}}
+                            </a>
                                     <form action="{{ route('rekening.destroy', $rek->KODER) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus rekening {{ $rek->NAMA }}?');"
                                         class="inline-block">
