@@ -60,13 +60,13 @@ class RekeningController extends Controller
             'NAMA' => 'required|string|max:255',
             'A_P' => 'required|in:A,P,L,O',
             // Saldo sebaiknya tidak di-edit sembarangan jika sudah berjalan, tapi untuk awal boleh
-            'SALDO' => 'required|numeric',
+            // 'SALDO' => 'required|numeric',
         ]);
 
         $rekening->update([
             'KODER' => $validated['KODER'],
             'NAMA' => $validated['NAMA'],
-            'SALDO' => $validated['SALDO'],
+            // 'SALDO' => $validated['SALDO'],
             'A_P' => $validated['A_P'],
             // TGL updated at default
         ]);
