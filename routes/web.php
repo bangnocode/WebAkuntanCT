@@ -38,4 +38,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/neraca', [App\Http\Controllers\LaporanKeuanganController::class, 'neraca'])->name('laporan.neraca');
     Route::get('/laporan/labarugi', [App\Http\Controllers\LaporanKeuanganController::class, 'labarugi'])->name('laporan.labarugi');
+    Route::get('/laporan/pdf', [App\Http\Controllers\LaporanKeuanganController::class, 'cetakPdf'])->name('laporan.pdf');
 });
