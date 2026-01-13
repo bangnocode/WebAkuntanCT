@@ -1,68 +1,86 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .document-container {
-        font-family: 'Times New Roman', Times, serif;
+    <style>
+        .document-container {
+        font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
         background-color: white;
+        width: 100%;
         max-width: 210mm;
         margin: 0 auto;
-        padding: 20mm;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        color: #000;
+        padding: 15px; /* Reduced padding for mobile */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        color: #333;
     }
     .doc-header {
         text-align: center;
-        margin-bottom: 2rem;
-        border-bottom: 2px solid #000;
-        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #333;
+        padding-bottom: 0.5rem;
     }
     .doc-title {
-        font-size: 24px;
+        font-size: 20px; /* Smaller title */
         text-transform: uppercase;
-        font-weight: bold;
-        margin-bottom: 5px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        color: #111;
     }
     .doc-subtitle {
-        font-size: 16px;
+        font-size: 13px;
+        color: #555;
     }
     .doc-section-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        text-decoration: underline;
+        font-size: 14px;
+        font-weight: 700;
+        margin-top: 15px;
+        margin-bottom: 8px;
         text-transform: uppercase;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 2px;
+        color: #444;
     }
     .doc-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 12px;
-        margin-bottom: 20px;
+        font-size: 11px; /* Smaller font */
     }
     .doc-table th, .doc-table td {
-        border: 1px solid #000;
-        padding: 4px 8px;
+        border-bottom: 1px solid #eee;
+        padding: 6px 4px;
     }
     .doc-table th {
-        background-color: #f0f0f0;
+        background-color: #f8f8f8;
         text-align: center;
-        font-weight: bold;
+        font-weight: 600;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        color: #444;
     }
     .text-right { text-align: right; }
     .text-center { text-align: center; }
     .font-bold { font-weight: bold; }
     
     /* Indentation */
-    .level-1 td:nth-child(2) { font-weight: bold; background-color: #f9f9f9; }
-    .level-2 td:nth-child(2) { font-weight: bold; padding-left: 20px; }
-    .level-3 td:nth-child(2) { padding-left: 40px; }
+    .level-1 td:nth-child(2) { font-weight: 700; color: #000; }
+    .level-2 td:nth-child(2) { font-weight: 600; padding-left: 15px; color: #333; }
+    .level-3 td:nth-child(2) { padding-left: 30px; color: #555; }
 
     .total-row {
-        font-weight: bold;
-        background-color: #e0e0e0;
+        font-weight: 700;
+        background-color: #f4f4f4;
+        border-top: 2px solid #ddd !important;
     }
-</style>
+
+    /* Mobile Responsive Tweaks */
+    @media (min-width: 768px) {
+        .document-container {
+            padding: 20mm;
+            margin: 20px auto;
+        }
+        .doc-title { font-size: 24px; }
+        .doc-table { font-size: 12px; }
+    }
+    </style>
 
 <div class="flex justify-end mb-4 max-w-5xl mx-auto print:hidden">
     <a href="{{ route('laporan.pdf') }}" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded shadow hover:bg-gray-700 flex items-center gap-2 text-sm">
