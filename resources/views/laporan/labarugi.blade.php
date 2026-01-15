@@ -61,8 +61,8 @@
     .font-bold { font-weight: bold; }
     
     /* Indentation */
-    .level-1 td:nth-child(2) { font-weight: 700; color: #000; }
-    .level-2 td:nth-child(2) { font-weight: 600; padding-left: 15px; color: #333; }
+    .level-1 td:nth-child(2) { font-weight: 900; color: #000; }
+    .level-2 td:nth-child(2) { font-weight: 700; padding-left: 15px; color: #333; }
     .level-3 td:nth-child(2) { padding-left: 30px; color: #555; }
 
     .total-row {
@@ -83,7 +83,7 @@
     </style>
 
 <div class="flex justify-end mb-4 max-w-5xl mx-auto print:hidden">
-    <a href="{{ route('laporan.pdf') }}" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded shadow hover:bg-gray-700 flex items-center gap-2 text-sm">
+    <a href="{{ route('laporan.pdf', ['type' => 'labarugi']) }}" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded shadow hover:bg-gray-700 flex items-center gap-2 text-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
         Open Print View
     </a>

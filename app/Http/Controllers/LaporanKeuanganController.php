@@ -54,37 +54,31 @@ class LaporanKeuanganController extends Controller
         return view('laporan.labarugi', compact('pendapatan', 'biaya', 'totalPendapatan', 'totalBiaya', 'labaBersih'));
     }
 
-    public function cetakPdf()
+    public function cetakPdf(Request $request)
     {
         $accounts = Rekening::orderBy('KODER')->get();
+        $type = $request->query('type', 'all'); // 'neraca', 'labarugi', or 'all'
 
-        // Separate collections
-        // Neraca: A (Aktiva), P (Pasiva), M (Modal/Equity? - Assuming P covers liabilities and equity based on context, otherwise check logic)
-        // Adjust based on user files: A_P columns. 
-        // Based on neraca(): A and P.
-        // Based on labarugi(): L and O.
+        $neracaAccounts = collect([]);
+        $labarugiAccounts = collect([]);
 
-        $neracaAccounts = $accounts->filter(function ($item) {
-            return in_array($item->A_P, ['A', 'P']);
-        });
+        // Filter based on type
+        if ($type === 'all' || $type === 'neraca') {
+            $neracaAccounts = $accounts->filter(function ($item) {
+                return in_array($item->A_P, ['A', 'P']);
+            });
+        }
 
-        $labarugiAccounts = $accounts->filter(function ($item) {
-            return in_array($item->A_P, ['L', 'O']);
-        });
+        if ($type === 'all' || $type === 'labarugi') {
+            $labarugiAccounts = $accounts->filter(function ($item) {
+                return in_array($item->A_P, ['L', 'O']);
+            });
+        }
 
-        $processedNeraca = $this->processHierarchy($neracaAccounts);
-        $processedLabaRugi = $this->processHierarchy($labarugiAccounts);
+        $processedNeraca = $neracaAccounts->isNotEmpty() ? $this->processHierarchy($neracaAccounts) : collect([]);
+        $processedLabaRugi = $labarugiAccounts->isNotEmpty() ? $this->processHierarchy($labarugiAccounts) : collect([]);
 
-        // Calculate Totals for Summary
-        // Note: processHierarchy returns flattened list with calculated saldos.
-        // We need to sum Level 1 items for the Grand Total? 
-        // Or closer: 
-        // Total Neraca = (Total Aktiva - Total Pasiva) or just sum of all? 
-        // Conventionally: Assets (Debit) - Liabilities (Credit). 
-        // If 'SALDO' is signed correctly, sum is enough. If all positive, we need logic.
-        // Usually Assets are Debit (+), Liabilities Credit (-).
-        // Let's assume standard behavior or check 'A_P'
-
+        // Calculate Totals
         $totalAktiva = $neracaAccounts->where('A_P', 'A')->where('TIPE', 'D')->sum('SALDO');
         $totalPasiva = $neracaAccounts->where('A_P', 'P')->where('TIPE', 'D')->sum('SALDO');
         $totalNeraca = $totalAktiva - $totalPasiva;
@@ -97,7 +91,8 @@ class LaporanKeuanganController extends Controller
             'neraca' => $processedNeraca,
             'labarugi' => $processedLabaRugi,
             'totalNeraca' => $totalNeraca,
-            'labaBersih' => $labaBersih
+            'labaBersih' => $labaBersih,
+            'type' => $type
         ]);
     }
 
@@ -105,16 +100,17 @@ class LaporanKeuanganController extends Controller
     {
         // Turn into keyed collection for easy access
         $keyed = $accounts->keyBy('KODER');
-        $tree = [];
 
-        // 1. Build Tree Structure (Assign children to parents)
-        // We will separate into levels to process bottom-up for sums
+        // 1. Build Tree Structure
         $level3 = [];
         $level2 = [];
         $level1 = [];
 
+        // Classify first, ensuring correct level assignment
         foreach ($accounts as $account) {
             $code = $account->KODER;
+            $account->children = collect([]); // Initialize children
+
             if (substr($code, -5) === '00000') {
                 $account->level = 1;
                 $account->class = 'level-1';
@@ -128,59 +124,42 @@ class LaporanKeuanganController extends Controller
                 $account->class = 'level-3';
                 $level3[$code] = $account;
             }
-            $account->children = collect([]);
         }
 
         // 2. Associate and Sum (Bottom Up)
 
-        // Process Level 3 -> Level 2
+        // Process Level 3
         foreach ($level3 as $code => $l3) {
-            $parentCode = substr($code, 0, 2) . '000'; // e.g. 1-10001 -> 1-10 (approx pattern)
-            // Wait, format is X-XXXXX. 
-            // Example: 1-10001. 
-            // Parent level 2: 1-10000.  (First 4 chars + '0')?
-            // User said:
-            // Level 2: X-XX000 (e.g. 1-10000)
-            // Level 3: X-XXXXX (e.g. 1-10001)
-            // So parent of 1-10001 is 1-10000.
-            // Logic: Take first 4 chars, append '0' ??
-            // 1-10001 -> 1-10 (4 chars) + '0' -> 1-100 is not right.
-            // 1-10001 is 7 chars. 
-            // '1-100'00.
-            // Let's assume the prefix defines parent.
-
-            // Regex/String manipulation:
-            // If code is "A-BBCCC", parent level 2 is "A-BB000".
-            $parts = explode('-', $code); // ['1', '10001']
+            // Determine parents
+            $parts = explode('-', $code);
             if (count($parts) < 2) continue;
 
-            $prefix = $parts[0]; // '1'
-            $suffix = $parts[1]; // '10001'
+            $prefix = $parts[0];
+            $suffix = $parts[1];
 
-            // Parent Level 2 Suffix: First 2 chars of suffix + '000'
+            // Potential Parent Level 2: Prefix-XX000
             $parentSuffixL2 = substr($suffix, 0, 2) . '000';
             $parentCodeL2 = $prefix . '-' . $parentSuffixL2;
 
             if (isset($level2[$parentCodeL2])) {
+                // Attach to Level 2
                 $level2[$parentCodeL2]->children->push($l3);
-                // Accumulate Sum if parent saldo is user-managed or zero.
-                // Assuming we want calculated sum displayed for parents:
-                // $level2[$parentCodeL2]->SALDO += $l3->SALDO; 
-                // However, doing this blindly might double count if DB already updated.
-                // Decision: Calculate fresh sum for the report to guarantee consistency with details.
-                // We will OVERWRITE parent saldo with sum of children for the report view.
+            } else {
+                // Orphan Level 3 -> Attach directly to Level 1
+                $parentCodeL1 = $prefix . '-00000';
+                if (isset($level1[$parentCodeL1])) {
+                    $level1[$parentCodeL1]->children->push($l3);
+                }
             }
         }
 
-        // Sum Level 2
-        foreach ($level2 as $l2) {
+        // Calculations for Level 2
+        foreach ($level2 as $code => $l2) {
             if ($l2->children->isNotEmpty()) {
                 $l2->SALDO = $l2->children->sum('SALDO');
             }
-        }
 
-        // Process Level 2 -> Level 1
-        foreach ($level2 as $code => $l2) {
+            // Register Level 2 to Level 1
             $parts = explode('-', $code);
             $prefix = $parts[0];
             $parentCodeL1 = $prefix . '-00000';
@@ -190,21 +169,32 @@ class LaporanKeuanganController extends Controller
             }
         }
 
-        // Sum Level 1
+        // Calculations for Level 1
         foreach ($level1 as $l1) {
             if ($l1->children->isNotEmpty()) {
                 $l1->SALDO = $l1->children->sum('SALDO');
             }
         }
 
-        // 3. Flatten for View (Ordered)
+        // 3. Flatten for View (Recursive or iterative)
+        // Since we allowed orphans on L1, L1 children can be L2 OR L3.
+        // We need a robust flattener.
+
         $flattened = collect([]);
         foreach ($level1 as $l1) {
             $flattened->push($l1);
-            foreach ($l1->children as $l2) {
-                $flattened->push($l2);
-                foreach ($l2->children as $l3) {
-                    $flattened->push($l3);
+
+            // Sort children by KODER to keep order
+            $sortedChildren = $l1->children->sortBy('KODER');
+
+            foreach ($sortedChildren as $child) {
+                $flattened->push($child);
+
+                // If this child is Level 2 and has children (Level 3s)
+                if ($child->level === 2 && $child->children->isNotEmpty()) {
+                    foreach ($child->children->sortBy('KODER') as $grandChild) {
+                        $flattened->push($grandChild);
+                    }
                 }
             }
         }

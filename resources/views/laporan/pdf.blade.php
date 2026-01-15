@@ -64,8 +64,8 @@
         .font-bold { font-weight: bold; }
         
         /* Indentation for Hierarchy */
-        .level-1 td:nth-child(2) { font-weight: bold; background-color: #f9f9f9; }
-        .level-2 td:nth-child(2) { font-weight: bold; padding-left: 20px; }
+        .level-1 td:nth-child(2) { font-weight: 900; background-color: #f9f9f9; }
+        .level-2 td:nth-child(2) { font-weight: 700; padding-left: 20px; }
         .level-3 td:nth-child(2) { padding-left: 40px; }
 
         .total-row {
@@ -123,11 +123,12 @@
 
     <div class="page">
         <div class="header">
-            <h2>Laporan Keuangan</h2>
+            <h2>Laporan Keuangan {{ $type === 'neraca' ? 'NERACA' : ($type === 'labarugi' ? 'LABA RUGI' : '') }}</h2>
             <h3>Per Tanggal: {{ Carbon::now()->translatedFormat('d F Y') }}</h3>
         </div>
 
         <!-- NERACA -->
+        @if($neraca->isNotEmpty())
         <div class="section-title">NERACA</div>
         <table>
             <thead>
@@ -151,10 +152,14 @@
                 </tr>
             </tbody>
         </table>
+        @endif
 
+        @if($neraca->isNotEmpty() && $labarugi->isNotEmpty())
         <br><br>
+        @endif
 
         <!-- LABA RUGI -->
+        @if($labarugi->isNotEmpty())
         <div class="section-title">LABA RUGI</div>
         <table>
             <thead>
@@ -178,6 +183,7 @@
                 </tr>
             </tbody>
         </table>
+        @endif
     </div>
 </body>
 </html>
