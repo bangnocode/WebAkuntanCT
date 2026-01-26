@@ -157,7 +157,7 @@
                 </tr>
                 <tr class="total-row">
                     <td colspan="2" class="text-center">TOTAL PASIVA</td>
-                    <td class="text-right">{{ number_format($totalAktiva, 2, ',', '.') }}</td>
+                    <td class="text-right">{{ number_format($totalPasiva, 2, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
