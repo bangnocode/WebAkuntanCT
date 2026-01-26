@@ -90,6 +90,8 @@ class LaporanKeuanganController extends Controller
         return view('laporan.pdf', [
             'neraca' => $processedNeraca,
             'labarugi' => $processedLabaRugi,
+            'totalAktiva' => $totalAktiva,
+            'totalPasiva' => $totalPasiva,
             'totalNeraca' => $totalNeraca,
             'labaBersih' => $labaBersih,
             'type' => $type

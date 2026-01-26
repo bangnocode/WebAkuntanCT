@@ -148,9 +148,14 @@
                 <td colspan="3" class="text-center py-4">Tidak ada data Pasiva</td>
             </tr>
             @endforelse
+            <tr class="level-2">
+                <td class="text-center"></td>
+                <td>Laba Rugi Tahun Ini</td>
+                <td class="text-right">{{ number_format($totalAktiva - $totalPasiva, 2, ',', '.') }}</td>
+            </tr>
             <tr class="total-row">
                 <td colspan="2" class="text-center">TOTAL PASIVA</td>
-                <td class="text-right">{{ number_format($totalPasiva, 2, ',', '.') }}</td>
+                <td class="text-right">{{ number_format($totalAktiva, 2, ',', '.') }}</td>
             </tr>
         </tbody>
     </table>
