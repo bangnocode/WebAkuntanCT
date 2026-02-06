@@ -10,6 +10,23 @@ class RekeningController extends Controller
     public function index()
     {
         $rekenings = Rekening::orderBy('KODER', 'asc')->get();
+
+        // Calculate Laba Rugi Tahun Ini
+        // Pendapatan: L, Biaya: O
+        $labarugiAccounts = $rekenings->filter(function ($item) {
+            return in_array($item->A_P, ['L', 'O']);
+        });
+
+        $totalPendapatan = $labarugiAccounts->where('A_P', 'L')->where('TIPE', 'D')->sum('SALDO');
+        $totalBiaya = $labarugiAccounts->where('A_P', 'O')->where('TIPE', 'D')->sum('SALDO');
+        $labaBersih = $totalPendapatan - $totalBiaya;
+
+        // Inject into Account 3-00099
+        $labaRugiAccount = $rekenings->firstWhere('KODER', '3-00099');
+        if ($labaRugiAccount) {
+            $labaRugiAccount->SALDO = $labaBersih;
+        }
+
         return view('rekening.index', compact('rekenings'));
     }
 
