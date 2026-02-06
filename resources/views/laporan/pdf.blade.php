@@ -146,11 +146,7 @@
                         <td class="text-right">{{ number_format($akun['SALDO'], 2, ',', '.') }}</td>
                     </tr>
                 @endforeach
-                <tr class="level-2">
-                    <td class="text-center"></td>
-                    <td>Laba Rugi Tahun Ini</td>
-                    <td class="text-right">{{ number_format($totalAktiva - $totalPasiva, 2, ',', '.') }}</td>
-                </tr>
+
                 <tr class="total-row">
                     <td colspan="2" class="text-center">TOTAL AKTIVA</td>
                     <td class="text-right">{{ number_format($totalAktiva, 2, ',', '.') }}</td>

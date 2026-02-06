@@ -11,6 +11,22 @@ class LaporanKeuanganController extends Controller
     {
         $accounts = Rekening::orderBy('KODER')->get();
 
+        // Calculate Laba Rugi Tahun Ini
+        // Pendapatan: L, Biaya: O
+        $labarugiAccounts = $accounts->filter(function ($item) {
+            return in_array($item->A_P, ['L', 'O']);
+        });
+
+        $totalPendapatan = $labarugiAccounts->where('A_P', 'L')->where('TIPE', 'D')->sum('SALDO');
+        $totalBiaya = $labarugiAccounts->where('A_P', 'O')->where('TIPE', 'D')->sum('SALDO');
+        $labaBersih = $totalPendapatan - $totalBiaya;
+
+        // Inject into Account 3-00099
+        $labaRugiAccount = $accounts->firstWhere('KODER', '3-00099');
+        if ($labaRugiAccount) {
+            $labaRugiAccount->SALDO = $labaBersih;
+        }
+
         // Aktiva: A, Pasiva: P
         $neracaAccounts = $accounts->filter(function ($item) {
             return in_array($item->A_P, ['A', 'P']);
@@ -27,6 +43,9 @@ class LaporanKeuanganController extends Controller
         $pasiva = $this->processHierarchy($pasivaRaw);
 
         $totalAktiva = $neracaAccounts->where('A_P', 'A')->where('TIPE', 'D')->sum('SALDO');
+        // Note: The sum() operation on the collection uses the objects within it.
+        // Since we modified $labaRugiAccount which is referenced in $accounts (and thus $neracaAccounts),
+        // the sum should reflect the new value.
         $totalPasiva = $neracaAccounts->where('A_P', 'P')->where('TIPE', 'D')->sum('SALDO');
 
         return view('laporan.neraca', compact('aktiva', 'pasiva', 'totalAktiva', 'totalPasiva'));
@@ -75,17 +94,32 @@ class LaporanKeuanganController extends Controller
             });
         }
 
+        // Calculate Totals & Laba Bersih (Needed early for injection)
+        // Ensure we have access to L/O accounts even if type is 'neraca' for the calculation?
+        // Wait, if type is 'neraca', $labarugiAccounts might be empty.
+        // But we need Laba Bersih for Neraca balance!
+        // So we must fetch L/O accounts regardless of type to calculate the plug.
+
+        $allLabaRugiAccounts = $accounts->filter(function ($item) {
+            return in_array($item->A_P, ['L', 'O']);
+        });
+        $totalPendapatan = $allLabaRugiAccounts->where('A_P', 'L')->where('TIPE', 'D')->sum('SALDO');
+        $totalBiaya = $allLabaRugiAccounts->where('A_P', 'O')->where('TIPE', 'D')->sum('SALDO');
+        $labaBersih = $totalPendapatan - $totalBiaya;
+
+        // Inject into Account 3-00099
+        $labaRugiAccount = $accounts->firstWhere('KODER', '3-00099');
+        if ($labaRugiAccount) {
+            $labaRugiAccount->SALDO = $labaBersih;
+        }
+
         $processedNeraca = $neracaAccounts->isNotEmpty() ? $this->processHierarchy($neracaAccounts) : collect([]);
         $processedLabaRugi = $labarugiAccounts->isNotEmpty() ? $this->processHierarchy($labarugiAccounts) : collect([]);
 
-        // Calculate Totals
+        // Calculate Totals for View
         $totalAktiva = $neracaAccounts->where('A_P', 'A')->where('TIPE', 'D')->sum('SALDO');
         $totalPasiva = $neracaAccounts->where('A_P', 'P')->where('TIPE', 'D')->sum('SALDO');
         $totalNeraca = $totalAktiva - $totalPasiva;
-
-        $totalPendapatan = $labarugiAccounts->where('A_P', 'L')->where('TIPE', 'D')->sum('SALDO');
-        $totalBiaya = $labarugiAccounts->where('A_P', 'O')->where('TIPE', 'D')->sum('SALDO');
-        $labaBersih = $totalPendapatan - $totalBiaya;
 
         return view('laporan.pdf', [
             'neraca' => $processedNeraca,
