@@ -7,21 +7,32 @@ use Illuminate\Http\Request;
 
 class RekeningController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rekenings = Rekening::orderBy('KODER', 'asc')->get();
+        $query = Rekening::query();
 
-        // Calculate Laba Rugi Tahun Ini
-        // Pendapatan: L, Biaya: O
-        $labarugiAccounts = $rekenings->filter(function ($item) {
-            return in_array($item->A_P, ['L', 'O']);
-        });
+        // Filter / Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('KODER', 'like', "%{$search}%")
+                    ->orWhere('NAMA', 'like', "%{$search}%");
+            });
+        }
 
-        $totalPendapatan = $labarugiAccounts->where('A_P', 'L')->where('TIPE', 'D')->sum('SALDO');
-        $totalBiaya = $labarugiAccounts->where('A_P', 'O')->where('TIPE', 'D')->sum('SALDO');
+        if ($request->filled('posisi')) {
+            $query->where('A_P', $request->posisi);
+        }
+
+        $rekenings = $query->orderBy('KODER', 'asc')->get();
+
+        // Calculate Laba Rugi Tahun Ini (always from all data for accuracy)
+        $labarugiAccounts = Rekening::whereIn('A_P', ['L', 'O'])->where('TIPE', 'D')->get();
+        $totalPendapatan = $labarugiAccounts->where('A_P', 'L')->sum('SALDO');
+        $totalBiaya = $labarugiAccounts->where('A_P', 'O')->sum('SALDO');
         $labaBersih = $totalPendapatan - $totalBiaya;
 
-        // Inject into Account 3-00099
+        // Inject into Account 3-00099 if it exists in the current view
         $labaRugiAccount = $rekenings->firstWhere('KODER', '3-00099');
         if ($labaRugiAccount) {
             $labaRugiAccount->SALDO = $labaBersih;
